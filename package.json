@@ -1,0 +1,17 @@
+{
+  "name": "seanurl",
+  "version": "1.0.0",
+  "description": "TinyURL clone",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "keywords": [
+    "url-forwarder"
+  ],
+  "author": "Sean",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
