@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "TinyURL clone",
   "main": "app.js",
+  "type": "module",
   "scripts": {
     "test": "node app.js"
   },
@@ -13,5 +14,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.10"
   }
 }
