@@ -1,7 +1,9 @@
 import express from "express";
 import { createClient } from "redis";
-import createHomeTemplate from "./views/index.js";
+import createHomePage from "./views/index.js";
 import createSuccessCard from "./views/success.js";
+import createErrorCard from "./views/error.js";
+import create404Page from "./views/404.js";
 import { randomUUID } from "node:crypto";
 
 // Express setup
@@ -21,20 +23,27 @@ const client = createClient({
   },
 });
 
-(async () => await client.connect())();
+// FT.CREATE idx:url ON hash PREFIX 1 "url:" SCHEMA shortenedUrl TEXT
+
+(async () => {
+  await client.connect();
+})();
 
 app.get("/", async (req, res) => {
-  res.send(createHomeTemplate());
+  res.send(createHomePage());
 });
 
 app.post("/createShortenedUrl", async (req, res) => {
   try {
     const urlToDirect = req.body.urlToDirect;
+    const shortenedUrlAlias = req.body.shortenedUrlAlias;
+
+    if (urlToDirect === "" || shortenedUrlAlias === "") {
+      throw "Invalid. Input field is empty.";
+    }
+
     const shortenedUrl = `${WEBSITE_DOMAIN}/${req.body.shortenedUrlAlias}`;
     const url_uuid = `url:${randomUUID()}`;
-    if (urlToDirect === "" || shortenedUrl === "") {
-      throw "Invalid empty string";
-    }
 
     client.on("error", (err) => {
       throw err;
@@ -46,7 +55,9 @@ app.post("/createShortenedUrl", async (req, res) => {
     });
 
     res.send(createSuccessCard(urlToDirect, shortenedUrl));
-  } catch (err) {}
+  } catch (err) {
+    res.send(createErrorCard(err));
+  }
 });
 
 app.get("/:shortenedUrl", async (req, res) => {
@@ -69,6 +80,8 @@ app.get("/:shortenedUrl", async (req, res) => {
     }
 
     res.redirect(url);
+  } else {
+    res.send(create404Page());
   }
 });
 

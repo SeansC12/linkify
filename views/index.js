@@ -1,6 +1,6 @@
 const html = String.raw;
 
-const createHomeTemplate = () => /*html*/ html`
+const createHomePage = () => /*html*/ html`
   <!DOCTYPE html>
   <html lang="en">
     <head>
@@ -69,4 +69,4 @@ const createHomeTemplate = () => /*html*/ html`
   </html>
 `;
 
-export default createHomeTemplate;
+export default createHomePage;
