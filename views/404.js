@@ -30,7 +30,7 @@ const create404Page = (error) => /*html*/ html`
     <body
       class="dark bg-black flex w-full items-center flex-col gap-10"
     >
-      <div>404: Page not found</div>
+      <div class="text-white">404: Page not found</div>
     </body>
   </html>
 `;
