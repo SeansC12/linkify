@@ -55,10 +55,20 @@ app.get("/:shortenedUrl", async (req, res) => {
     "idx:url",
     `@shortenedUrl:\"${shortenedUrl}\"`
   );
-  if (results.documents[0].value.urlToDirect) {
-    res.redirect(
-      `https://${results.documents[0].value.urlToDirect}`
-    );
+  if (results.documents[0]) {
+    let url = results.documents[0].value.urlToDirect;
+    const urlProtocols = ["http://", "https://"];
+
+    if (
+      url.substring(0, urlProtocols[0].length) !==
+        urlProtocols[0] &&
+      url.substring(0, urlProtocols[1].length) !==
+        urlProtocols[1]
+    ) {
+      url = urlProtocols[1] + url;
+    }
+
+    res.redirect(url);
   }
 });
 
