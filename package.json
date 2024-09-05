@@ -13,7 +13,8 @@
   "author": "Sean",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "redis": "^4.7.0"
   },
   "devDependencies": {
     "tailwindcss": "^3.4.10"
