@@ -16,10 +16,10 @@ app.use(express.static("public"));
 
 // Redis Client setup
 const client = createClient({
-  password: "cPX6ODerLGB9b05IBkiNyXDXBIJ1bZU6",
+  password: "zWNBc9L1QFDDiz1N88QmdX5aQWNF66RU",
   socket: {
-    host: "redis-15599.c292.ap-southeast-1-1.ec2.redns.redis-cloud.com",
-    port: 15599,
+    host: "redis-15087.c292.ap-southeast-1-1.ec2.redns.redis-cloud.com",
+    port: 15087,
   },
 });
 
