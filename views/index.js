@@ -28,41 +28,46 @@ const createHomePage = () => /*html*/ html`
     </head>
 
     <body
-      class="dark bg-black flex w-full items-center flex-col gap-10"
+      style="background-image: url('../images/background.jpg'); background-repeat: no-repeat; background-size: cover; opacity: 0.7"
+      class="flex w-full items-center flex-row gap-10"
     >
-      <form class="w-[350px] dark flex gap-2 flex-col">
-        <div class="uk-text-default text-white">
-          Where does it go?
-        </div>
-        <div>
-          <input
-            class="uk-input"
-            type="text"
-            name="urlToDirect"
-            placeholder="www.google.com"
-            aria-label="Input"
-          />
-        </div>
-        <div class="uk-text-default text-white">
-          Seanurl link alias
-        </div>
-        <div>
-          <input
-            class="uk-input"
-            type="text"
-            name="shortenedUrlAlias"
-            placeholder="seanurl.com/"
-            aria-label="Input"
-          />
-        </div>
-        <button
-          class="uk-button uk-button-default w-max dark"
-          hx-post="/createShortenedUrl"
-          hx-target=".indicator-card"
-          hx-swap="innerHTML"
+      <form class="w-[350px]">
+        <div
+          class="flex gap-2 flex-col bg-purple-800 uk-card uk-card-body"
         >
-          Button
-        </button>
+          <div class="uk-text-default text-white">
+            Where does it go?
+          </div>
+          <div>
+            <input
+              class="uk-input uk-margin"
+              type="text"
+              name="urlToDirect"
+              placeholder="www.google.com"
+              aria-label="Input"
+            />
+          </div>
+          <div class="uk-text-default text-white">
+            Seanurl link alias
+          </div>
+          <div>
+            <input
+              class="uk-input"
+              type="text"
+              name="shortenedUrlAlias"
+              placeholder="seanurl.com/"
+              aria-label="Input"
+            />
+          </div>
+          <button
+            class="uk-button uk-button-default uk-margin w-max"
+            hx-post="/createShortenedUrl"
+            hx-target=".indicator-card"
+            hx-swap="innerHTML"
+          >
+            Shorten
+          </button>
+        </div>
       </form>
       <div class="indicator-card"></div>
     </body>
