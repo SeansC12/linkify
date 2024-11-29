@@ -1,10 +1,13 @@
 import express from "express";
+
 import { createClient } from "redis";
+import cookieParser from "cookie-parser";
+import { randomUUID } from "node:crypto";
+
 import createHomePage from "./views/index.js";
 import createSuccessCard from "./views/success.js";
 import createErrorCard from "./views/error.js";
 import create404Page from "./views/404.js";
-import { randomUUID } from "node:crypto";
 
 // Express setup
 const app = express();
@@ -13,6 +16,7 @@ const WEBSITE_DOMAIN = "localhost:3000";
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(express.static("public"));
+app.use(cookieParser());
 
 // Redis Client setup
 const client = createClient({
@@ -52,6 +56,7 @@ app.post("/createShortenedUrl", async (req, res) => {
     await client.hSet(url_uuid, {
       urlToDirect: urlToDirect,
       shortenedUrl: shortenedUrl,
+      visits: 0,
     });
 
     res.send(createSuccessCard(urlToDirect, shortenedUrl));
@@ -60,10 +65,40 @@ app.post("/createShortenedUrl", async (req, res) => {
   }
 });
 
+app.get("/retrieveMyLinks", async (req, res) => {
+  console.log("polled");
+  const links = req.cookies;
+
+  if (!links.shortenedUrlAlias) {
+    res.send("You have no shortened links.");
+    return;
+  }
+
+  const aliases = links.shortenedUrlAlias.split(";");
+
+  for (const alias of aliases) {
+    const results = await client.ft.search("idx:url", `@shortenedUrl:\"${alias}\"`);
+
+    if (!results.documents[0]) {
+      res.send("This link does not exist. Something went wrong. Please try again.");
+      return;
+    }
+
+    const urlToDirect = results.documents[0].value.urlToDirect;
+    console.log(results.documents[0]);
+    const visits = results.documents[0].value.visits;
+
+    res.send(`<div>${alias} --> ${urlToDirect} - ${visits} visits</div>`);
+  }
+});
+
 app.get("/:shortenedUrl", async (req, res) => {
   const shortenedUrl = req.params.shortenedUrl;
+
+  // Search for the URL in Redis
   const results = await client.ft.search("idx:url", `@shortenedUrl:\"${shortenedUrl}\"`);
   if (results.documents[0]) {
+    // Fix the URL if it doesn't have a protocol
     let url = results.documents[0].value.urlToDirect;
     const urlProtocols = ["http://", "https://"];
 
@@ -75,6 +110,11 @@ app.get("/:shortenedUrl", async (req, res) => {
     }
 
     res.redirect(url);
+
+    // Adds one visit to this URL in Redis
+    const url_uuid = results.documents[0].id;
+
+    await client.hIncrBy(url_uuid, "visits", 1);
   } else {
     res.send(create404Page());
   }
