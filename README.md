@@ -4,7 +4,11 @@ This is a tinyURL clone built with HTMX, Redis, and Express.
 
 To do
 
-- [] Validate check that alias does not already exist in db
-- [] Spinner in homepage
-- [] 404 auto-redirect to home
-- [] Make it look nicer
+- [x] Re-styling
+- [x] Add history to cookies
+- [x] Add view analytics
+- [ ] Remove the success modal
+- [ ] Add a loading for initial state
+- [ ] Change table line colours
+- [ ] Clear fields upon form submission
+- [ ] Add the alias is already taken up check (and add error modal)
