@@ -75,7 +75,7 @@ const createHomePage = () => /*html*/ html`
         </form>
         <div class="indicator-card"></div>
         <div
-          class="flex flex-col gap-5 bg-indigo-900 w-full uk-card uk-card-body !border-0 text-white"
+          class="flex flex-col gap-5 bg-indigo-950 w-full uk-card uk-card-body !border-0 text-white"
         >
           <div
             hx-get="/retrieveMyLinks"
@@ -85,7 +85,18 @@ const createHomePage = () => /*html*/ html`
             class="text-lg"
           >
             <div>Your shortened links.</div>
-            <div class="my-links"></div>
+            <div>
+              <table class="uk-table uk-table-divider">
+                <thead>
+                  <tr>
+                    <th>Alias</th>
+                    <th>Long link</th>
+                    <th>Visits</th>
+                  </tr>
+                </thead>
+                <tbody class="my-links !border-gray-400"></tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

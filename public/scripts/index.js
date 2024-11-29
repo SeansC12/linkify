@@ -4,9 +4,20 @@ function handleAfterShortenRequest() {
 
   const urlToDirect = form.querySelector('input[name="urlToDirect"]').value;
 
-  document.cookie = "shortenedUrlAlias=" + shortenedUrlAlias;
+  // Find the current value of the cookie "shortenedUrlAlias"
+  let currentShortenedUrlAlias = document.cookie
+    .split(";")
+    .find((c) => c.includes("shortenedUrlAlias"));
 
-  // Example logic
+  if (currentShortenedUrlAlias) {
+    currentShortenedUrlAlias = currentShortenedUrlAlias.split("=")[1];
+
+    document.cookie = "shortenedUrlAlias=" + currentShortenedUrlAlias + "," + shortenedUrlAlias;
+  } else {
+    currentShortenedUrlAlias = "";
+    document.cookie = "shortenedUrlAlias=" + shortenedUrlAlias;
+  }
+
   alert("URL shortened successfully!");
 }
 

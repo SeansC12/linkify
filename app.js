@@ -5,9 +5,11 @@ import cookieParser from "cookie-parser";
 import { randomUUID } from "node:crypto";
 
 import createHomePage from "./views/index.js";
-import createSuccessCard from "./views/success.js";
-import createErrorCard from "./views/error.js";
+import createMyLinkRow from "./views/MyLinks.js";
+import createSuccessCard from "./views/Success.js";
+import createErrorCard from "./views/Error.js";
 import create404Page from "./views/404.js";
+import { create } from "node:domain";
 
 // Express setup
 const app = express();
@@ -74,7 +76,9 @@ app.get("/retrieveMyLinks", async (req, res) => {
     return;
   }
 
-  const aliases = links.shortenedUrlAlias.split(";");
+  const aliases = links.shortenedUrlAlias.split(",");
+  console.log(links);
+  let returnHTML = "";
 
   for (const alias of aliases) {
     const results = await client.ft.search("idx:url", `@shortenedUrl:\"${alias}\"`);
@@ -88,8 +92,10 @@ app.get("/retrieveMyLinks", async (req, res) => {
     console.log(results.documents[0]);
     const visits = results.documents[0].value.visits;
 
-    res.send(`<div>${alias} --> ${urlToDirect} - ${visits} visits</div>`);
+    returnHTML += createMyLinkRow(alias, urlToDirect, visits);
   }
+
+  res.send(returnHTML);
 });
 
 app.get("/:shortenedUrl", async (req, res) => {
