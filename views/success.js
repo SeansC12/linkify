@@ -1,12 +1,11 @@
 const html = String.raw;
 
-const createSuccessCard = (urlToDirect, shortenedUrl) => /*html*/ html`
+const createSuccessCard = (successMessage) => /*html*/ html`
   <!DOCTYPE html>
   <html lang="en">
-    <div class="uk-alert dark:border dark:!border-green-600 dark:text-green-400 w-[350px]" uk-alert>
+    <div class="uk-alert green-glass text-white !border-0" uk-alert>
       <a href class="uk-alert-close" uk-close></a>
-      <div class="uk-alert-description">It was a success.</div>
-      <div>${shortenedUrl} --> ${urlToDirect}</div>
+      <div class="uk-alert-description">${successMessage}</div>
     </div>
   </html>
 `;

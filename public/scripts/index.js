@@ -11,7 +11,6 @@ function handleAfterShortenRequest() {
 
   if (currentShortenedUrlAlias) {
     currentShortenedUrlAlias = currentShortenedUrlAlias.split("=")[1];
-
     document.cookie = "shortenedUrlAlias=" + currentShortenedUrlAlias + "," + shortenedUrlAlias;
   } else {
     currentShortenedUrlAlias = "";

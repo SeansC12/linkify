@@ -59,7 +59,7 @@ const createHomePage = () => /*html*/ html`
                 class="uk-input !border-gray-400 focus:!border-gray-700 placeholder-gray-500 !text-black"
                 type="text"
                 name="shortenedUrlAlias"
-                placeholder="seanurl.com/"
+                placeholder="my-alias"
                 aria-label="Input"
               />
             </div>
@@ -67,22 +67,14 @@ const createHomePage = () => /*html*/ html`
               class="button-white-glass py-2 px-3 text-base w-full"
               hx-post="/createShortenedUrl"
               hx-target=".indicator-card"
-              hx-swap="innerHTML"
+              hx-swap="outerHTML"
               hx-on::after-request="handleAfterShortenRequest(event)"
             >
               Shorten
             </button>
           </div>
         </form>
-        <div class="indicator-card">
-          <div class="uk-alert red-glass text-white !border-0" uk-alert>
-            <a href class="uk-alert-close" uk-close></a>
-            <div class="uk-alert-description">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-              incididunt.
-            </div>
-          </div>
-        </div>
+        <div class="indicator-card hidden"></div>
         <div
           class="flex flex-col gap-5 white-glass w-full uk-card uk-card-body !border-0 text-black"
         >
@@ -90,7 +82,7 @@ const createHomePage = () => /*html*/ html`
             hx-get="/retrieveMyLinks"
             hx-trigger="every 1s"
             hx-target=".my-links"
-            hx-swap="outerHTML"
+            hx-swap="innerHTML"
             class="text-lg"
           >
             <div class="card-header">My links</div>

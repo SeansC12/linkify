@@ -35,10 +35,12 @@ const client = createClient({
   await client.connect();
 })();
 
+// GET /
 app.get("/", async (req, res) => {
   res.send(createHomePage());
 });
 
+// GET /createShortenedUrl
 app.post("/createShortenedUrl", async (req, res) => {
   try {
     const urlToDirect = req.body.urlToDirect;
@@ -61,16 +63,17 @@ app.post("/createShortenedUrl", async (req, res) => {
       visits: 0,
     });
 
-    res.send(createSuccessCard(urlToDirect, shortenedUrl));
+    const successMessage = `URL shortened successfully! Your shortened URL is: <a href="${shortenedUrl}">${shortenedUrl}</a>`;
+    res.send(createSuccessCard(successMessage));
   } catch (err) {
     res.send(createErrorCard(err));
   }
 });
 
+// GET /retrieveMyLinks
 app.get("/retrieveMyLinks", async (req, res) => {
   console.log("polled");
   const links = req.cookies;
-
   if (!links.shortenedUrlAlias) {
     res.send("You have no shortened links.");
     return;
@@ -81,23 +84,28 @@ app.get("/retrieveMyLinks", async (req, res) => {
   let returnHTML = "";
 
   for (const alias of aliases) {
-    const results = await client.ft.search("idx:url", `@shortenedUrl:\"${alias}\"`);
-
-    if (!results.documents[0]) {
-      res.send("This link does not exist. Something went wrong. Please try again.");
-      return;
-    }
-
-    const urlToDirect = results.documents[0].value.urlToDirect;
-    console.log(results.documents[0]);
-    const visits = results.documents[0].value.visits;
-
-    returnHTML += createMyLinkRow(alias, urlToDirect, visits);
+    console.log(alias);
   }
+  res.send("Ok");
+  // for (const alias of aliases) {
+  //   const results = await client.ft.search("idx:url", `@shortenedUrl:\"${alias}\"`);
 
-  res.send(returnHTML);
+  //   if (!results.documents[0]) {
+  //     res.send("This link does not exist. Something went wrong. Please try again.");
+  //     return;
+  //   }
+
+  //   const urlToDirect = results.documents[0].value.urlToDirect;
+  //   console.log(results.documents[0]);
+  //   const visits = results.documents[0].value.visits;
+
+  //   returnHTML += createMyLinkRow(alias, urlToDirect, visits);
+  // }
+
+  // res.send(returnHTML);
 });
 
+// GET /:shortenedUrl
 app.get("/:shortenedUrl", async (req, res) => {
   const shortenedUrl = req.params.shortenedUrl;
 
