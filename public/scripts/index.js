@@ -1,8 +1,7 @@
 function handleAfterShortenRequest() {
   const form = document.getElementById("shortenUrlForm");
-  const shortenedUrlAlias = form.querySelector('input[name="shortenedUrlAlias"').value;
 
-  const urlToDirect = form.querySelector('input[name="urlToDirect"]').value;
+  const shortenedUrlAlias = form.querySelector('input[name="shortenedUrlAlias"]').value;
 
   // Find the current value of the cookie "shortenedUrlAlias"
   let currentShortenedUrlAlias = document.cookie
@@ -17,7 +16,7 @@ function handleAfterShortenRequest() {
     document.cookie = "shortenedUrlAlias=" + shortenedUrlAlias;
   }
 
-  alert("URL shortened successfully!");
+  document.querySelector("form").reset();
 }
 
 // Attach the function to the global `window` object

@@ -83,26 +83,30 @@ app.get("/retrieveMyLinks", async (req, res) => {
   console.log(links);
   let returnHTML = "";
 
-  for (const alias of aliases) {
-    console.log(alias);
-  }
-  res.send("Ok");
-  // for (const alias of aliases) {
-  //   const results = await client.ft.search("idx:url", `@shortenedUrl:\"${alias}\"`);
-
-  //   if (!results.documents[0]) {
-  //     res.send("This link does not exist. Something went wrong. Please try again.");
-  //     return;
-  //   }
-
-  //   const urlToDirect = results.documents[0].value.urlToDirect;
-  //   console.log(results.documents[0]);
-  //   const visits = results.documents[0].value.visits;
-
-  //   returnHTML += createMyLinkRow(alias, urlToDirect, visits);
+  // try {
+  //   const results = await client.ft.search("idx:url", `@shortenedUrl:${aliases[8]}`);
+  //   console.log(aliases, results);
+  // } catch (err) {
+  //   console.log(err);
   // }
+  // res.send("Ok");
 
-  // res.send(returnHTML);
+  for (const alias of aliases) {
+    const results = await client.ft.search("idx:url", `@shortenedUrl:\"${alias}\"`);
+
+    if (!results.documents[0]) {
+      res.send("This link does not exist. Something went wrong. Please try again.");
+      return;
+    }
+
+    const urlToDirect = results.documents[0].value.urlToDirect;
+    console.log(results.documents[0]);
+    const visits = results.documents[0].value.visits;
+
+    returnHTML += createMyLinkRow(alias, urlToDirect, visits);
+  }
+
+  res.send(returnHTML);
 });
 
 // GET /:shortenedUrl
