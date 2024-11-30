@@ -41,21 +41,22 @@ const createHomePage = () => /*html*/ html`
     >
       <div class="w-full max-w-[600px] flex flex-col gap-5">
         <form id="shortenUrlForm" class="w-full">
-          <div class="flex flex-col gap-5 bg-indigo-900 uk-card uk-card-body !border-0 text-white">
-            <div class="text-lg">Where does it go?</div>
-            <div>
+          <div class="white-glass uk-card uk-card-body !border-0 text-black">
+            <div class="card-header">Where does it go?</div>
+            <div class="mb-7">
               <input
-                class="uk-input uk-margin !border-gray-300 text-white"
+                class="uk-input !border-gray-400 focus:!border-gray-700 placeholder-gray-500 !text-black"
                 type="text"
                 name="urlToDirect"
                 placeholder="www.google.com"
                 aria-label="Input"
               />
             </div>
-            <div class="text-lg">seanURL link alias</div>
-            <div>
+            <div class="card-header">seanURL link alias</div>
+            <div class="flex items-center gap-2 mb-7">
+              <span class="text-black text-sm select-none">seanurl.vercel.app/</span>
               <input
-                class="uk-input uk-margin !border-gray-300 text-white"
+                class="uk-input !border-gray-400 focus:!border-gray-700 placeholder-gray-500 !text-black"
                 type="text"
                 name="shortenedUrlAlias"
                 placeholder="seanurl.com/"
@@ -63,7 +64,7 @@ const createHomePage = () => /*html*/ html`
               />
             </div>
             <button
-              class="uk-button uk-button-default"
+              class="button-white-glass py-2 px-3 text-base w-full"
               hx-post="/createShortenedUrl"
               hx-target=".indicator-card"
               hx-swap="innerHTML"
@@ -73,28 +74,36 @@ const createHomePage = () => /*html*/ html`
             </button>
           </div>
         </form>
-        <div class="indicator-card"></div>
+        <div class="indicator-card">
+          <div class="uk-alert red-glass text-white !border-0" uk-alert>
+            <a href class="uk-alert-close" uk-close></a>
+            <div class="uk-alert-description">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+              incididunt.
+            </div>
+          </div>
+        </div>
         <div
-          class="flex flex-col gap-5 bg-indigo-950 w-full uk-card uk-card-body !border-0 text-white"
+          class="flex flex-col gap-5 white-glass w-full uk-card uk-card-body !border-0 text-black"
         >
           <div
             hx-get="/retrieveMyLinks"
             hx-trigger="every 1s"
             hx-target=".my-links"
-            hx-swap="innerHTML"
+            hx-swap="outerHTML"
             class="text-lg"
           >
-            <div>Your shortened links.</div>
+            <div class="card-header">My links</div>
             <div>
-              <table class="uk-table uk-table-divider">
+              <table class="uk-table">
                 <thead>
                   <tr>
-                    <th>Alias</th>
-                    <th>Long link</th>
-                    <th>Visits</th>
+                    <th class="!text-black !font-bold">Alias</th>
+                    <th class="!text-black !font-bold">Long link</th>
+                    <th class="!text-black !font-bold">Visits</th>
                   </tr>
                 </thead>
-                <tbody class="my-links !border-gray-400"></tbody>
+                <tbody class="my-links !border-white"></tbody>
               </table>
             </div>
           </div>

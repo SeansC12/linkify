@@ -3,3 +3,45 @@
 @import "tailwindcss/components";
 
 @import "tailwindcss/utilities";
+
+@layer base {
+  .card-header {
+    @apply text-xl font-bold mb-3;
+  }
+
+  .white-glass {
+    background: rgba(255, 255, 255, 0.27);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5.3px);
+    -webkit-backdrop-filter: blur(5.3px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .button-white-glass {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4.8px);
+    -webkit-backdrop-filter: blur(4.8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .button-white-glass:hover {
+    background: rgba(255, 255, 255, 0.43);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4.8px);
+    -webkit-backdrop-filter: blur(4.8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  .red-glass {
+    background: rgba(255, 20, 0, 0.66);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(7.5px);
+    -webkit-backdrop-filter: blur(7.5px);
+    border: 1px solid rgba(255, 20, 0, 0.3);
+  }
+}

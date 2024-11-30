@@ -6,7 +6,7 @@ module.exports = {
       backgroundImage: {
         'abstract-background':
           // Write the Url path to an image in the directory /public/media/background.png
-          "url('/images/background.jpg')",
+          "url('/images/background2.jpg')",
       },
     },
   },
