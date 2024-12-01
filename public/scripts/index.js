@@ -1,4 +1,8 @@
-function handleAfterShortenRequest() {
+function handleAfterShortenRequest(event) {
+  if (event.detail.xhr.status !== 200) {
+    return;
+  }
+  console.log(event.detail);
   const form = document.getElementById("shortenUrlForm");
 
   const shortenedUrlAlias = form.querySelector('input[name="shortenedUrlAlias"]').value;
@@ -15,7 +19,6 @@ function handleAfterShortenRequest() {
     currentShortenedUrlAlias = "";
     document.cookie = "shortenedUrlAlias=" + shortenedUrlAlias;
   }
-
   document.querySelector("form").reset();
 }
 

@@ -29,7 +29,7 @@ const client = createClient({
   },
 });
 
-// FT.CREATE idx:url ON hash PREFIX 1 "url:" SCHEMA shortenedUrl TEXT
+// FT.CREATE idx:url ON hash PREFIX 1 "url:" SCHEMA alias TEXT
 
 (async () => {
   await client.connect();
@@ -42,24 +42,34 @@ app.get("/", async (req, res) => {
 
 // GET /createShortenedUrl
 app.post("/createShortenedUrl", async (req, res) => {
+  console.log("createShortenedUrl hit");
   try {
     const urlToDirect = req.body.urlToDirect;
-    const shortenedUrlAlias = req.body.shortenedUrlAlias;
+    const alias = req.body.shortenedUrlAlias;
 
-    if (urlToDirect === "" || shortenedUrlAlias === "") {
+    console.log(urlToDirect, alias);
+
+    if (urlToDirect === "" || alias === "") {
       throw "Invalid. Input field is empty.";
     }
 
-    const shortenedUrl = `${WEBSITE_DOMAIN}/${req.body.shortenedUrlAlias}`;
+    const shortenedUrl = `${WEBSITE_DOMAIN}/${alias}`;
     const url_uuid = `url:${randomUUID()}`;
 
     client.on("error", (err) => {
       throw err;
     });
 
+    const results = await client.ft.search("idx:url", `@alias:\"${alias}\"`);
+
+    if (results.documents[0]) {
+      res.status(400).send(createErrorCard("This alias is already taken. Please try another one."));
+      return;
+    }
+
     await client.hSet(url_uuid, {
       urlToDirect: urlToDirect,
-      shortenedUrl: shortenedUrl,
+      alias: alias,
       visits: 0,
     });
 
@@ -72,7 +82,6 @@ app.post("/createShortenedUrl", async (req, res) => {
 
 // GET /retrieveMyLinks
 app.get("/retrieveMyLinks", async (req, res) => {
-  console.log("polled");
   const links = req.cookies;
   if (!links.shortenedUrlAlias) {
     res.send("You have no shortened links.");
@@ -80,11 +89,11 @@ app.get("/retrieveMyLinks", async (req, res) => {
   }
 
   const aliases = links.shortenedUrlAlias.split(",");
-  console.log(links);
+
   let returnHTML = "";
 
   // try {
-  //   const results = await client.ft.search("idx:url", `@shortenedUrl:${aliases[8]}`);
+  //   const results = await client.ft.search("idx:url", `@alias:${aliases[8]}`);
   //   console.log(aliases, results);
   // } catch (err) {
   //   console.log(err);
@@ -92,7 +101,7 @@ app.get("/retrieveMyLinks", async (req, res) => {
   // res.send("Ok");
 
   for (const alias of aliases) {
-    const results = await client.ft.search("idx:url", `@shortenedUrl:\"${alias}\"`);
+    const results = await client.ft.search("idx:url", `@alias:\"${alias}\"`);
 
     if (!results.documents[0]) {
       res.send("This link does not exist. Something went wrong. Please try again.");
@@ -100,7 +109,7 @@ app.get("/retrieveMyLinks", async (req, res) => {
     }
 
     const urlToDirect = results.documents[0].value.urlToDirect;
-    console.log(results.documents[0]);
+
     const visits = results.documents[0].value.visits;
 
     returnHTML += createMyLinkRow(alias, urlToDirect, visits);
@@ -114,7 +123,7 @@ app.get("/:shortenedUrl", async (req, res) => {
   const shortenedUrl = req.params.shortenedUrl;
 
   // Search for the URL in Redis
-  const results = await client.ft.search("idx:url", `@shortenedUrl:\"${shortenedUrl}\"`);
+  const results = await client.ft.search("idx:url", `@alias:\"${shortenedUrl}\"`);
   if (results.documents[0]) {
     // Fix the URL if it doesn't have a protocol
     let url = results.documents[0].value.urlToDirect;

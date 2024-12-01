@@ -33,13 +33,17 @@ const createHomePage = () => /*html*/ html`
         integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ"
         crossorigin="anonymous"
       ></script>
+
+      <!-- HTMX Response Targets -->
+      <script src="https://unpkg.com/htmx-ext-response-targets@2.0.0/response-targets.js"></script>
+
       <title>Shorten your URL</title>
     </head>
 
     <body
-      class="flex items-center justify-start w-full h-screen bg-abstract-background bg-cover flex-col dark p-5"
+      class="flex items-center justify-start w-full h-screen bg-blue-300 bg-cover flex-col dark p-5"
     >
-      <div class="w-full max-w-[600px] flex flex-col gap-5">
+      <div hx-ext="response-targets" class="w-full max-w-[600px] flex flex-col gap-5">
         <form id="shortenUrlForm" class="w-full">
           <div class="white-glass uk-card uk-card-body !border-0 text-black">
             <div class="card-header">Where does it go?</div>
@@ -66,15 +70,16 @@ const createHomePage = () => /*html*/ html`
             <button
               class="button-white-glass py-2 px-3 text-base w-full"
               hx-post="/createShortenedUrl"
-              hx-target=".indicator-card"
               hx-swap="outerHTML"
+              hx-target="#indicator-card"
+              hx-target-x="#indicator-card"
               hx-on::after-request="handleAfterShortenRequest(event)"
             >
               Shorten
             </button>
           </div>
         </form>
-        <div class="indicator-card hidden"></div>
+        <div id="indicator-card" class="hidden"></div>
         <div
           class="flex flex-col gap-5 white-glass w-full uk-card uk-card-body !border-0 text-black"
         >
