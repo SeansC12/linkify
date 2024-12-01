@@ -1,5 +1,6 @@
 function handleAfterShortenRequest(event) {
   if (event.detail.xhr.status !== 200) {
+    document.querySelector("form").reset();
     return;
   }
   console.log(event.detail);
