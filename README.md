@@ -7,8 +7,8 @@ To do
 - [x] Re-styling
 - [x] Add history to cookies
 - [x] Add view analytics
-- [ ] Remove the success modal
+- [x] Remove the success modal
 - [ ] Add a loading for initial state
-- [ ] Change table line colours
-- [ ] Clear fields upon form submission
-- [ ] Add the alias is already taken up check (and add error modal)
+- [x] Change table line colours
+- [x] Clear fields upon form submission
+- [x] Add the alias is already taken up check (and add error modal)

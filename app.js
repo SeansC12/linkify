@@ -60,7 +60,7 @@ app.post("/createShortenedUrl", async (req, res) => {
       throw err;
     });
 
-    const results = await client.ft.search("idx:url", `@alias:\"${alias}\"`);
+    const results = await client.ft.search("idx:url", `(@alias:'${alias}')`);
 
     if (results.documents[0]) {
       res.status(400).send(createErrorCard("This alias is already taken. Please try another one."));
