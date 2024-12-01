@@ -47,10 +47,38 @@ app.post("/createShortenedUrl", async (req, res) => {
     const urlToDirect = req.body.urlToDirect;
     const alias = req.body.shortenedUrlAlias;
 
-    console.log(urlToDirect, alias);
+    const isValidUrl = (url) => {
+      try {
+        new URL(url);
+        return true;
+      } catch (err) {
+        return false;
+      }
+    };
 
-    if (urlToDirect === "" || alias === "") {
+    const isValidAlias = (alias) => {
+      const aliasRegex = /^[a-zA-Z0-9-_]+$/;
+      return aliasRegex.test(alias);
+    };
+
+    if (!isValidUrl(urlToDirect)) {
+      throw "Invalid URL. Please enter a valid URL.";
+    }
+
+    if (!isValidAlias(alias)) {
+      throw "Invalid alias. Please enter a valid alias.";
+    }
+
+    if (alias === "" || alias.length === 0) {
       throw "Invalid. Input field is empty.";
+    }
+
+    if (alias.length > 50 || urlToDirect.length > 2000) {
+      throw "Invalid. Input field is too long.";
+    }
+
+    if (alias.length < 5) {
+      throw "Invalid. Alias must be at least 5 characters";
     }
 
     const shortenedUrl = `${WEBSITE_DOMAIN}/${alias}`;
@@ -76,7 +104,7 @@ app.post("/createShortenedUrl", async (req, res) => {
     const successMessage = `URL shortened successfully! Your shortened URL is: <a href="${shortenedUrl}">${shortenedUrl}</a>`;
     res.send(createSuccessCard(successMessage));
   } catch (err) {
-    res.send(createErrorCard(err));
+    res.status(400).send(createErrorCard(err));
   }
 });
 
@@ -101,7 +129,14 @@ app.get("/retrieveMyLinks", async (req, res) => {
   // res.send("Ok");
 
   for (const alias of aliases) {
-    const results = await client.ft.search("idx:url", `@alias:\"${alias}\"`);
+    let results;
+    try {
+      results = await client.ft.search("idx:url", `@alias:\"${alias}\"`);
+    } catch (err) {
+      console.log("here");
+      res.status(400).send("Something went wrong. Please try again.");
+      return;
+    }
 
     if (!results.documents[0]) {
       res.send("This link does not exist. Something went wrong. Please try again.");

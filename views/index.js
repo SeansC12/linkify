@@ -70,12 +70,14 @@ const createHomePage = () => /*html*/ html`
             <button
               class="button-white-glass py-2 px-3 text-base w-full"
               hx-post="/createShortenedUrl"
-              hx-swap="outerHTML"
+              hx-swap="innerHTML"
               hx-target="#indicator-card"
               hx-target-x="#indicator-card"
               hx-on::after-request="handleAfterShortenRequest(event)"
+              hx-on::before-send="handleBeforeShortenRequestSent()"
             >
               Shorten
+              <img src="../public/spinners/rings.svg" class="htmx-indicator" />
             </button>
           </div>
         </form>

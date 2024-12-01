@@ -9,6 +9,18 @@
     @apply text-xl font-bold mb-3;
   }
 
+  .htmx-indicator {
+    @apply hidden;
+  }
+
+  .htmx-request .htmx-indicator {
+    @apply inline;
+  }
+
+  .htmx-request.htmx-indicator {
+    @apply inline;
+  }
+
   .white-glass {
     background: rgba(255, 255, 255, 0.27);
     border-radius: 16px;

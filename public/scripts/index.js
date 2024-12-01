@@ -1,9 +1,14 @@
 function handleAfterShortenRequest(event) {
+  const indicatorCard = document.getElementById("indicator-card");
+  indicatorCard.classList.remove("hidden");
+
   if (event.detail.xhr.status !== 200) {
-    document.querySelector("form").reset();
+    console.log("Error 400");
     return;
   }
+
   console.log(event.detail);
+
   const form = document.getElementById("shortenUrlForm");
 
   const shortenedUrlAlias = form.querySelector('input[name="shortenedUrlAlias"]').value;
@@ -21,6 +26,13 @@ function handleAfterShortenRequest(event) {
     document.cookie = "shortenedUrlAlias=" + shortenedUrlAlias;
   }
   document.querySelector("form").reset();
+}
+
+function handleBeforeShortenRequestSent() {
+  const indicatorCard = document.getElementById("indicator-card");
+  if (indicatorCard) {
+    indicatorCard.classList.add("hidden");
+  }
 }
 
 // Attach the function to the global `window` object
