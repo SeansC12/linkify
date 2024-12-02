@@ -1,4 +1,4 @@
-# seanurl
+# Linkify
 
 This is a tinyURL clone built with HTMX, Redis, and Express.
 

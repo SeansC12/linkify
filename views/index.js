@@ -56,9 +56,9 @@ const createHomePage = () => /*html*/ html`
                 aria-label="Input"
               />
             </div>
-            <div class="card-header">seanURL link alias</div>
+            <div class="card-header">Linkify link alias</div>
             <div class="flex items-center gap-2 mb-7">
-              <span class="text-black text-sm select-none">seanurl.vercel.app/</span>
+              <span class="text-black text-sm select-none">linkify.vercel.app/</span>
               <input
                 class="uk-input !border-gray-400 focus:!border-gray-700 placeholder-gray-500 !text-black"
                 type="text"
