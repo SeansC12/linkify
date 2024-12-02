@@ -78,7 +78,7 @@ app.post("/createShortenedUrl", async (req, res) => {
     }
 
     if (alias.length < 5) {
-      throw "Invalid. Alias must be at least 5 characters";
+      throw "Invalid. Alias must be at least 5 characters.";
     }
 
     const shortenedUrl = `${WEBSITE_DOMAIN}/${alias}`;

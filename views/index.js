@@ -41,7 +41,7 @@ const createHomePage = () => /*html*/ html`
     </head>
 
     <body
-      class="flex items-center justify-start w-full h-screen bg-green-300 bg-cover flex-col dark p-5"
+      class="flex items-center justify-start w-full h-screen bg-abstract-background bg-cover flex-col dark p-5"
     >
       <div hx-ext="response-targets" class="w-full max-w-[600px] flex flex-col gap-5">
         <form id="shortenUrlForm" class="w-full">
