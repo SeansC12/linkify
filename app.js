@@ -14,7 +14,7 @@ import { create } from "node:domain";
 // Express setup
 const app = express();
 const port = 3000;
-const WEBSITE_DOMAIN = "localhost:3000";
+const WEBSITE_DOMAIN = "https://linkify.fly.dev";
 app.use(express.json()); // for parsing application/json
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(express.static("public"));
