@@ -43,7 +43,8 @@ const createHomePage = () => /*html*/ html`
     <body
       class="flex items-center justify-start w-full h-screen bg-abstract-background bg-cover flex-col dark p-5"
     >
-      <div hx-ext="response-targets" class="w-full max-w-[600px] flex flex-col gap-5">
+      <div hx-ext="response-targets" class="w-full max-w-[600px] flex flex-col items-center gap-5">
+        <img src="/images/logo/logo.png" width="65%" class="!w-1/2" />
         <form id="shortenUrlForm" class="w-full">
           <div class="white-glass uk-card uk-card-body !border-0 text-black">
             <div class="card-header">Where does it go?</div>
@@ -77,7 +78,7 @@ const createHomePage = () => /*html*/ html`
               hx-on::before-send="handleBeforeShortenRequestSent()"
             >
               Shorten
-              <img src="../public/spinners/rings.svg" class="htmx-indicator" />
+              <img src="/spinners/rings.svg" class="htmx-indicator" />
             </button>
           </div>
         </form>
