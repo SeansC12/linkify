@@ -14,3 +14,4 @@ To do
 - [x] Add the alias is already taken up check (and add error modal)
 - [x] Add a loading for initial state
 - [x] Perform data sanitation
+- [ ] Fix Github Actions CI/CD
