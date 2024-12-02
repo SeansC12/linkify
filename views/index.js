@@ -90,6 +90,7 @@ const createHomePage = () => /*html*/ html`
             hx-get="/retrieveMyLinks"
             hx-trigger="every 1s"
             hx-target=".my-links"
+            hx-target-x=".my-links"
             hx-swap="innerHTML"
             class="text-lg"
           >

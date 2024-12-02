@@ -25,7 +25,7 @@ dotenv.config();
 
 // Redis Client setup
 const client = createClient({
-  password: process.env.REDIS_PASSWORD,
+  // password: process.env.REDIS_PASSWORD,
   socket: {
     host: process.env.REDIS_HOST,
     port: process.env.REDIS_PORT,
@@ -59,6 +59,7 @@ app.post("/createShortenedUrl", async (req, res) => {
     };
 
     const isValidAlias = (alias) => {
+      // Make it such that the alias can only contain letters and hyphens
       const aliasRegex = /^[a-zA-Z0-9-_]+$/;
       return aliasRegex.test(alias);
     };
@@ -132,8 +133,11 @@ app.get("/retrieveMyLinks", async (req, res) => {
 
   for (const alias of aliases) {
     let results;
+    // Generate a new alias that inserts a backslash before every hyphen
+    const escapedHyphenAlias = alias.replace(/-/g, "\\-");
+
     try {
-      results = await client.ft.search("idx:url", `@alias:\"${alias}\"`);
+      results = await client.ft.search("idx:url", `@alias:{${escapedHyphenAlias}}`);
     } catch (err) {
       res.status(400).send("Something went wrong. Please try again.");
       return;
@@ -155,11 +159,13 @@ app.get("/retrieveMyLinks", async (req, res) => {
 });
 
 // GET /:shortenedUrl
-app.get("/:shortenedUrl", async (req, res) => {
-  const shortenedUrl = req.params.shortenedUrl;
+app.get("/:alias", async (req, res) => {
+  const alias = req.params.alias;
 
   // Search for the URL in Redis
-  const results = await client.ft.search("idx:url", `@alias:\"${shortenedUrl}\"`);
+  const escapedHyphenAlias = alias.replace(/-/g, "\\-");
+
+  const results = await client.ft.search("idx:url", `@alias:{${escapedHyphenAlias}}`);
   if (results.documents[0]) {
     // Fix the URL if it doesn't have a protocol
     let url = results.documents[0].value.urlToDirect;
