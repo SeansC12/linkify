@@ -3,11 +3,8 @@ function handleAfterShortenRequest(event) {
   indicatorCard.classList.remove("hidden");
 
   if (event.detail.xhr.status !== 200) {
-    console.log("Error 400");
     return;
   }
-
-  console.log(event.detail);
 
   const form = document.getElementById("shortenUrlForm");
 

@@ -59,7 +59,7 @@ const createHomePage = () => /*html*/ html`
             </div>
             <div class="card-header">Linkify link alias</div>
             <div class="flex items-center gap-2 mb-7">
-              <span class="text-black text-sm select-none">linkify.vercel.app/</span>
+              <span class="text-black text-sm select-none">linkify.fly.dev/</span>
               <input
                 class="uk-input !border-gray-400 focus:!border-gray-700 placeholder-gray-500 !text-black"
                 type="text"
@@ -82,7 +82,7 @@ const createHomePage = () => /*html*/ html`
             </button>
           </div>
         </form>
-        <div id="indicator-card" class="hidden"></div>
+        <div id="indicator-card" class="hidden w-full"></div>
         <div
           class="flex flex-col gap-5 white-glass w-full uk-card uk-card-body !border-0 text-black"
         >

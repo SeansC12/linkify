@@ -42,7 +42,6 @@ app.get("/", async (req, res) => {
 
 // GET /createShortenedUrl
 app.post("/createShortenedUrl", async (req, res) => {
-  console.log("createShortenedUrl hit");
   try {
     const urlToDirect = req.body.urlToDirect;
     const alias = req.body.shortenedUrlAlias;
@@ -133,7 +132,6 @@ app.get("/retrieveMyLinks", async (req, res) => {
     try {
       results = await client.ft.search("idx:url", `@alias:\"${alias}\"`);
     } catch (err) {
-      console.log("here");
       res.status(400).send("Something went wrong. Please try again.");
       return;
     }
