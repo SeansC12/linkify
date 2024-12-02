@@ -9,7 +9,7 @@ import createMyLinkRow from "./views/MyLinks.js";
 import createSuccessCard from "./views/Success.js";
 import createErrorCard from "./views/Error.js";
 import create404Page from "./views/404.js";
-import { create } from "node:domain";
+import * as dotenv from "dotenv";
 
 // Express setup
 const app = express();
@@ -20,12 +20,15 @@ app.use(express.urlencoded({ extended: true })); // for parsing application/x-ww
 app.use(express.static("public"));
 app.use(cookieParser());
 
+// Environment variables setup
+dotenv.config();
+
 // Redis Client setup
 const client = createClient({
-  password: "zWNBc9L1QFDDiz1N88QmdX5aQWNF66RU",
+  password: process.env.REDIS_PASSWORD,
   socket: {
-    host: "redis-15087.c292.ap-southeast-1-1.ec2.redns.redis-cloud.com",
-    port: 15087,
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
   },
 });
 
