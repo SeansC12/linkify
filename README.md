@@ -3,6 +3,9 @@
 
 This is a tinyURL clone built with HTMX, Redis, and Express. It provides basic analytics (view count) with no user account creation required. Code reviews/improvements are welcomed.
 
+### Demo
+https://github.com/user-attachments/assets/74760462-d508-449e-a027-28dcf995b600
+
 ![image](https://github.com/user-attachments/assets/c12bc97f-ebb1-4d6e-9cf3-a76aeb3581ad)
 
 ### To do
