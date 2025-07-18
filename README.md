@@ -1,5 +1,5 @@
 # Linkify
-[linkify.fly.dev](https://linkify.fly.dev)
+[linkify.fly.dev](https://linkify.fly.dev) (site is not deployed right now because fly.io is not free)
 
 This is a tinyURL clone built with HTMX, Redis, and Express. It provides basic analytics (view count) with no user account creation required. Code reviews/improvements are welcomed.
 
